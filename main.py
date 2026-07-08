@@ -23,12 +23,15 @@ while True:
                 if (players['currentTeam']['id'] == teams[userTeam.lower()] and
                         (players['primaryPosition']['type'] == "Outfielder" or
                          players['primaryPosition']['type'] == "Infielder"  or
-                         players['primaryPosition']['type'] == "Hitter")):
+                         players['primaryPosition']['type'] == "Hitter" or
+                         players['primaryPosition']['type'] == "Catcher")):
 
                     playerStats = getPlayerStats(players['id'], year)['stats'][0]['splits'][0]['stat']
-                    stats = { "avg": playerStats['avg'], 'hr': playerStats['homeRuns']}
-                    print(f"{players['firstName']} {players['lastName']}")
-                    print(f"Batting Average: {stats['avg']}, Home Runs: {stats['hr']}")
+                    stats = { "avg": playerStats['avg'], 'hr': playerStats['homeRuns'],
+                              'gp': playerStats['gamesPlayed'], 'pa': playerStats['plateAppearances'] }
+                    print(f"{players['firstName']} {players['lastName']}\n"
+                          f"Batting Average: {stats['avg']}, Home Runs: {stats['hr']}, "
+                          f"Games Played: {stats['gp']}, PA: {stats['pa']} ")
                     player.append(f"{players['lastName']}")
                     if statChoice == 1:
                         hitting_stat.append(f"{stats['avg']}")
