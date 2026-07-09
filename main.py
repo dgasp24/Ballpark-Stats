@@ -1,5 +1,6 @@
 from apiLoader import getPlayerID, getTeamID, getPlayerStats, newMlbRosterData
 from plot import generatePlot
+import time
 
 teams = {}
 playerStats = {}
@@ -23,7 +24,7 @@ while True:
     teamData = getTeamID()
 
     mlbData = newMlbRosterData(teams[userTeam.lower()], year)
-
+    start = time.time()
     for players in mlbData['roster']:
         if players['person']['primaryPosition']['type'] in positions:
 
@@ -48,7 +49,7 @@ while True:
                 isInt = True
         else:
             continue
-
+    end = time.time()
     userExit = input("Would you like to exit (y/n): ")
     graph = input("Would you want a chart? (y/n): ")
     if userExit == "y" and graph == "n":
@@ -66,6 +67,7 @@ while True:
 
     break
 
+print(f"Total time: {end - start:.9f} seconds")
     # try:
     #     for players in playerData['people']:
     #             if (players['currentTeam']['id'] == teams[userTeam.lower()] and
