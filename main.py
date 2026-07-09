@@ -1,5 +1,6 @@
 from apiLoader import getPlayerID, getTeamID, getPlayerStats
 from plot import generatePlot
+import time
 
 teams = {}
 player = []
@@ -19,6 +20,7 @@ while True:
         else:
             continue
     try:
+        start = time.time()
         for players in playerData['people']:
                 if (players['currentTeam']['id'] == teams[userTeam.lower()] and
                         (players['primaryPosition']['type'] == "Outfielder" or
@@ -44,7 +46,7 @@ while True:
     except:
         print("Error, failed to grab player data")
         continue
-
+    end = time.time()
     userExit = input("Would you like to exit (y/n): ")
     graph = input("Would you want a chart? (y/n): ")
     if userExit == "y" and graph == "n":
@@ -62,6 +64,6 @@ while True:
         hitting_stat.clear()
         continue
 
-
+print(f"Took {end - start:.3f} seconds")
 
 
