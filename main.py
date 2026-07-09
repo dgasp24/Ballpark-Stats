@@ -1,66 +1,97 @@
-from apiLoader import getPlayerID, getTeamID, getPlayerStats
+from apiLoader import getPlayerID, getTeamID, getPlayerStats, newMlbRosterData
 from plot import generatePlot
 
 teams = {}
-player = []
-hitting_stat = []
+playerStats = {}
+positions = {"Outfielder", "Infielder", "Hitter", "Catcher"}
 isInt = True
 
-while True:
-    userTeam = input("Enter team: ")
-    year = int(input("Enter year: "))
-    statChoice = int(input("1. Batting Average\n2. Homeruns\n"))
-    playerData = getPlayerID(year)
+def loadTeams():
     teamData = getTeamID()
-
     for team in teamData['teams']:
         if team['sport']['name'] == "Major League Baseball":
             teams[team['teamName'].lower()] = team['id']
         else:
             continue
-    try:
-        for players in playerData['people']:
-                if (players['currentTeam']['id'] == teams[userTeam.lower()] and
-                        (players['primaryPosition']['type'] == "Outfielder" or
-                         players['primaryPosition']['type'] == "Infielder"  or
-                         players['primaryPosition']['type'] == "Hitter" or
-                         players['primaryPosition']['type'] == "Catcher")):
 
-                    playerStats = getPlayerStats(players['id'], year)['stats'][0]['splits'][0]['stat']
-                    stats = { "avg": playerStats['avg'], 'hr': playerStats['homeRuns'],
-                              'gp': playerStats['gamesPlayed'], 'pa': playerStats['plateAppearances'] }
-                    print(f"{players['firstName']} {players['lastName']}\n"
-                          f"Batting Average: {stats['avg']}, Home Runs: {stats['hr']}, "
-                          f"Games Played: {stats['gp']}, PA: {stats['pa']} ")
-                    player.append(f"{players['lastName']}")
-                    if statChoice == 1:
-                        hitting_stat.append(f"{stats['avg']}")
-                        isInt = False
-                    elif statChoice == 2:
-                        hitting_stat.append(f"{stats['hr']}")
-                        isInt = True
-                else:
-                    continue
-    except:
-        print("Error, failed to grab player data")
-        continue
+loadTeams()
+
+while True:
+    userTeam = input("Enter team: ")
+    year = int(input("Enter year: "))
+    statChoice = int(input("1. Batting Average\n2. Homeruns\n"))
+    teamData = getTeamID()
+
+    mlbData = newMlbRosterData(teams[userTeam.lower()], year)
+
+    for players in mlbData['roster']:
+        if players['person']['primaryPosition']['type'] in positions:
+
+            rawStat = players['person']['stats'][0]['splits'][0]['stat']
+
+            stats = {"avg": rawStat['avg'], 'hr': rawStat['homeRuns'],
+                     'gp': rawStat['gamesPlayed'], 'pa': rawStat['plateAppearances']}
+
+            print(f"{players['person']['fullName']}\n"
+                  f"Batting Average: {stats['avg']}, Home Runs: {stats['hr']}, "
+                  f"Games Played: {stats['gp']}, PA: {stats['pa']}")
+
+            name = players['person']['lastName']
+
+            if statChoice == 1:
+                print(playerStats)
+                playerStats[name] = stats['avg']
+                isInt = False
+            elif statChoice == 2:
+                print(playerStats)
+                playerStats[name] = stats['hr']
+                isInt = True
+        else:
+            continue
 
     userExit = input("Would you like to exit (y/n): ")
     graph = input("Would you want a chart? (y/n): ")
     if userExit == "y" and graph == "n":
         break
     elif userExit == "y" and graph == "y":
-        generatePlot(player, hitting_stat, isInt)
+        generatePlot(playerStats, isInt)
         break
     elif userExit == "n" and graph == "y":
-        generatePlot(player, hitting_stat, isInt)
-        player.clear()
-        hitting_stat.clear()
+        generatePlot(playerStats, isInt)
+        playerStats.clear()
         continue
     elif userExit == "n" and graph == "n":
-        player.clear()
-        hitting_stat.clear()
+        playerStats.clear()
         continue
+
+    break
+
+    # try:
+    #     for players in playerData['people']:
+    #             if (players['currentTeam']['id'] == teams[userTeam.lower()] and
+    #                     (players['primaryPosition']['type'] == "Outfielder" or
+    #                      players['primaryPosition']['type'] == "Infielder"  or
+    #                      players['primaryPosition']['type'] == "Hitter" or
+    #                      players['primaryPosition']['type'] == "Catcher")):
+    #
+    #                 playerStats = getPlayerStats(players['id'], year)['stats'][0]['splits'][0]['stat']
+    #                 stats = { "avg": playerStats['avg'], 'hr': playerStats['homeRuns'],
+    #                           'gp': playerStats['gamesPlayed'], 'pa': playerStats['plateAppearances'] }
+    #                 print(f"{players['firstName']} {players['lastName']}\n"
+    #                       f"Batting Average: {stats['avg']}, Home Runs: {stats['hr']}, "
+    #                       f"Games Played: {stats['gp']}, PA: {stats['pa']} ")
+    #                 player.append(f"{players['lastName']}")
+    #                 if statChoice == 1:
+    #                     hitting_stat.append(f"{stats['avg']}")
+    #                     isInt = False
+    #                 elif statChoice == 2:
+    #                     hitting_stat.append(f"{stats['hr']}")
+    #                     isInt = True
+    #             else:
+    #                 continue
+    # except:
+    #     print("Error, failed to grab player data")
+    #     continue
 
 
 

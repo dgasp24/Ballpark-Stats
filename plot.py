@@ -2,14 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def generatePlot(player, hitting_stat, isINT):
+def generatePlot(playerStats, isINT):
+    player = list(playerStats.keys())
+    stats = list(playerStats.values())
 
     try:
         if isINT:
             fig, ax = plt.subplots()
             colors = ['red' if player == 'Alvarez' else 'steelblue' for player in player]
             ax.axhline(y=20, color='red', linestyle='--', linewidth=1.5, label='League Average (.300)')
-            hitting_stats = [int(x) for x in hitting_stat]
+            hitting_stats = [int(x) for x in stats]
             ax.bar(player, hitting_stats, color=colors)
 
             ax.set_ylabel('Home Runs')
@@ -22,7 +24,7 @@ def generatePlot(player, hitting_stat, isINT):
             plt.show()
         elif not isINT:
             fig, ax = plt.subplots()
-            hitting_stats = [float(x) for x in hitting_stat]
+            hitting_stats = [float(x) for x in stats]
             colors = ['red' if player == 'Alvarez' else 'steelblue' for player in player]
             ax.bar(player, hitting_stats, color=colors)
             ax.axhline(y=0.600, color='red', linestyle='--', linewidth=1.5, label='League Average (.300)')
