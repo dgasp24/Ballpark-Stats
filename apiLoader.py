@@ -5,6 +5,7 @@ def newMlbRosterData(team, season):
     newMLBAPI = f"https://statsapi.mlb.com/api/v1/teams/{team}/roster"
     param = {
         "rosterType": "40Man",
+        "date": f"{season}-11-01",
         'hydrate': f"person(stats(group=hitting,type=season,season={season}))"
     }
 

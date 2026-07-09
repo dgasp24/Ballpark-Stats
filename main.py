@@ -16,17 +16,23 @@ def loadTeams():
             continue
 
 loadTeams()
-
 while True:
     userTeam = input("Enter team: ")
     year = int(input("Enter year: "))
-    statChoice = int(input("1. Batting Average\n2. Homeruns\n"))
+    statChoice = int(input("What would you like to have the chart show?\n1. Batting Average\n2. Homeruns\n"))
     teamData = getTeamID()
 
     mlbData = newMlbRosterData(teams[userTeam.lower()], year)
     start = time.time()
     for players in mlbData['roster']:
         if players['person']['primaryPosition']['type'] in positions:
+
+            if 'stats' not in players['person'] or not players['person']['stats']:
+                continue
+
+            splits = players['person']['stats'][0]['splits']
+            if not splits:
+                continue
 
             rawStat = players['person']['stats'][0]['splits'][0]['stat']
 
@@ -40,11 +46,9 @@ while True:
             name = players['person']['lastName']
 
             if statChoice == 1:
-                print(playerStats)
                 playerStats[name] = stats['avg']
                 isInt = False
             elif statChoice == 2:
-                print(playerStats)
                 playerStats[name] = stats['hr']
                 isInt = True
         else:
