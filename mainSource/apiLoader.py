@@ -2,12 +2,15 @@ import requests
 mlbAPI = "https://statsapi.mlb.com"
 
 def newMlbRosterData(team, season):
-    newMLBAPI = f"{mlbAPI}/api/v1/teams/{team}/roster"
+    newMLBAPI = f"{mlbAPI}/api/v1/stats"
     param = {
-        "rosterType": "40Man",
-        "date": f"{season}-10-01",
-        'hydrate': f"person(stats(group=hitting,type=season,season={season}))",
-         "playerPool": "ALL"
+        "stats": "season",
+        "group": "hitting",
+        "season": season,
+        "sportId": 1,
+        "teamId": team,
+        "limit": 100,
+        "playerPool": "ALL"
     }
 
     response = requests.get(newMLBAPI, params=param)

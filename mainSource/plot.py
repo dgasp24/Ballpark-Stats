@@ -36,15 +36,15 @@ def generateBarGraph(playerStats, isINT, season, team, whichStat):
     except:
         print("Error, failed to generate chart")
 
-def generateScatterPlot(playerStats):
+def generateScatterPlot(playerStats, stat1, stat2):
     names = []
     stat_1 = []
     stat_2 = []
 
     for name, stat_list in playerStats.items():
         names.append(name)
-        stat_1.append(float(stat_list[0]))
-        stat_2.append(float(stat_list[1]))
+        stat_1.append(float(stat_list[stat1]))
+        stat_2.append(float(stat_list[stat2]))
 
     fig, ax = plt.subplots()
     ax.scatter(stat_1, stat_2, color='steelblue')
