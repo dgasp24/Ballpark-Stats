@@ -1,5 +1,5 @@
 from apiLoader import getTeamID, newMlbRosterData
-from plot import generateBarGraph
+from plot import generateBarGraph, generateScatterPlot
 from databases.database import get_cached_team_stats, save_player_stat
 
 teams = {}
@@ -16,16 +16,13 @@ def loadTeams():
         else:
             continue
 
-def whichStat(statChoice, last_name, avg, ops, hr, gp, pa):
+def whichStat(statChoice):
     match statChoice:
         case 1:
-            playerStats[last_name] = avg
             return "Batting Average", False
         case 2:
-            playerStats[last_name] = ops
             return "OPS", False
         case 3:
-            playerStats[last_name] = hr
             return "Homeruns",  True
 
 loadTeams()
@@ -51,7 +48,8 @@ while True:
                   f"Batting Average: {avg}, Home Runs: {hr}, OPS: {ops} "
                   f"Games Played: {gp}, PA: {pa}")
 
-            Stat, isInt = whichStat(statChoice, last_name, avg, ops, hr, gp, pa)
+            Stat, isInt = whichStat(statChoice)
+            playerStats[last_name] = avg, ops, hr
 
     else:
         print("Fetching from API...")
@@ -87,22 +85,24 @@ while True:
                       f"Batting Average: {avg}, Home Runs: {hr}, OPS: {ops} "
                       f"Games Played: {gp}, PA: {pa}")
 
-                Stat, isInt = whichStat(statChoice, last_name, avg, ops, hr, gp, pa)
+                Stat, isInt = whichStat(statChoice)
+                playerStats[last_name] = avg, ops, hr
 
+    generateScatterPlot(playerStats)
 
-    userExit = input("Would you like to exit (y/n): ")
-    graph = input("Would you want a chart? (y/n): ")
-    if userExit == "y" and graph == "n":
-        break
-    elif userExit == "y" and graph == "y":
-        generateBarGraph(playerStats, isInt, year, userTeam.capitalize(), Stat)
-        break
-    elif userExit == "n" and graph == "y":
-        generateBarGraph(playerStats, isInt, year, userTeam.capitalize(), Stat)
-        playerStats.clear()
-        continue
-    elif userExit == "n" and graph == "n":
-        playerStats.clear()
-        continue
+    # userExit = input("Would you like to exit (y/n): ")
+    # graph = input("Would you want a chart? (y/n): ")
+    # if userExit == "y" and graph == "n":
+    #     break
+    # elif userExit == "y" and graph == "y":
+    #     generateBarGraph(playerStats, isInt, year, userTeam.capitalize(), Stat)
+    #     break
+    # elif userExit == "n" and graph == "y":
+    #     generateBarGraph(playerStats, isInt, year, userTeam.capitalize(), Stat)
+    #     playerStats.clear()
+    #     continue
+    # elif userExit == "n" and graph == "n":
+    #     playerStats.clear()
+    #     continue
 
     break

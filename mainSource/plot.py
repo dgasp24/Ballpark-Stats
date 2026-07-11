@@ -36,18 +36,25 @@ def generateBarGraph(playerStats, isINT, season, team, whichStat):
     except:
         print("Error, failed to generate chart")
 
-def generateScatterPlot(playerStats, isINT, season, team, whichStat):
-    player = list(playerStats.keys())
-    stats = list(playerStats.values())
+def generateScatterPlot(playerStats):
+    names = []
+    stat_1 = []
+    stat_2 = []
 
-    names = ['Altuve', 'Alvarez', 'Bregman', 'Tucker']
+    for name, stat_list in playerStats.items():
+        names.append(name)
+        stat_1.append(float(stat_list[0]))
+        stat_2.append(float(stat_list[1]))
 
     fig, ax = plt.subplots()
-    ax.scatter(avg, home_runs)
+    ax.scatter(stat_1, stat_2, color='steelblue')
 
-    ax.set_xlabel('Batting Average')
-    ax.set_ylabel('Home Runs')
-    ax.set_title('Batting Average vs Home Runs')
+    for i, name in enumerate(names):
+        ax.annotate(name, (stat_1[i], stat_2[i]), textcoords="offset points", xytext=(5, 5))
+
+    ax.set_xlabel("Average")
+    ax.set_ylabel("OPS")
+    ax.set_title(f"TEST")
 
     plt.tight_layout()
     plt.show()
