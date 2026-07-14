@@ -1,8 +1,19 @@
+from apiLoader import getTeamID
 from apiLoader import newMlbRosterData
 from databases.database import save_player_stat, get_cached_team_stats
 
 positions = {"Outfielder", "Infielder", "Hitter", "Catcher"}
 playerStats = {}
+teams = {}
+
+def loadTeams():
+    teamData = getTeamID()
+    for team in teamData['teams']:
+        if team['sport']['name'] == "Major League Baseball":
+            teams[team['teamName'].lower()] = team['id']
+        else:
+            continue
+    return teams
 
 def whichStatBar(statChoice, last_name, avg, hr, ops):
     match statChoice:
@@ -101,9 +112,9 @@ def grabbingStatsforScatter(teamId, year, minimumPA):
                 lastName,
                 fullName,
                 avg,
-                ops,
                 hr,
                 gamesPlayed,
+                ops,
                 plateAppearances
             )
 
