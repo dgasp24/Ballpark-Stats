@@ -55,38 +55,39 @@ def generateScatterPlot(playerStats, stat1, stat2, team, year, pa):
 
     print(stat1, stat2)
     if stat1 == 0 and stat2 == 1:
-        ax.axvline(x=0.250, color='red', linestyle='--', linewidth=1.5, label='League Average')
+        ax.axvline(x=0.250, color='red', linestyle='--', linewidth=1.5, label='Batting League Average')
         x_label = "Batting Average"
-        ax.axhline(y=0.750, color='red', linestyle='--', linewidth=1.5, label='League Average')
+        ax.axhline(y=0.750, color='blue', linestyle='--', linewidth=1.5, label=' OPS League Average')
         y_label = "OPS Average"
     elif stat1 == 0 and stat2 == 2:
-        ax.axvline(x=.250, color='red', linestyle='--', linewidth=1.5, label='League Average')
+        ax.axvline(x=.250, color='red', linestyle='--', linewidth=1.5, label='Batting League Average')
         x_label = "Batting Average"
-        ax.axhline(y=20, color='red', linestyle='--', linewidth=1.5, label='League Average')
+        ax.axhline(y=20, color='blue', linestyle='--', linewidth=1.5, label='Homerun League Average')
         y_label = "Homeruns"
     elif stat1 == 1 and stat2 == 0:
-        ax.axhline(y=0.250, color='red', linestyle='--', linewidth=1.5, label='League Average')
+        ax.axhline(y=0.250, color='red', linestyle='--', linewidth=1.5, label='Batting League Average')
         y_label = "Batting Average"
-        ax.axvline(x=0.750, color='red', linestyle='--', linewidth=1.5, label='League Average')
+        ax.axvline(x=0.750, color='blue', linestyle='--', linewidth=1.5, label='OPS League Average')
         x_label = "OPS Average"
     elif stat1 == 1 and stat2 == 2:
-        ax.axhline(y=20, color='red', linestyle='--', linewidth=1.5, label='League Average')
+        ax.axhline(y=20, color='red', linestyle='--', linewidth=1.5, label='Homeruns League Average')
         y_label = "Homeruns"
-        ax.axvline(x=0.750, color='red', linestyle='--', linewidth=1.5, label='League Average')
+        ax.axvline(x=0.750, color='blue', linestyle='--', linewidth=1.5, label='OPS League Average')
         x_label = "OPS Average"
     elif stat1 == 2 and stat2 == 1:
-        ax.axvline(x=20, color='red', linestyle='--', linewidth=1.5, label='League Average')
+        ax.axvline(x=20, color='red', linestyle='--', linewidth=1.5, label='Homeruns League Average')
         x_label = "Homeruns"
-        ax.axhline(y=0.750, color='red', linestyle='--', linewidth=1.5, label='League Average')
+        ax.axhline(y=0.750, color='blue', linestyle='--', linewidth=1.5, label='OPS League Average')
         y_label = "OPS Average"
     elif stat1 == 2 and stat2 == 0:
-        ax.axvline(x=20, color='red', linestyle='--', linewidth=1.5, label='League Average')
+        ax.axvline(x=20, color='red', linestyle='--', linewidth=1.5, label='Homeruns League Average')
         x_label = "Homeruns"
-        ax.axhline(y=0.250, color='red', linestyle='--', linewidth=1.5, label='League Average')
+        ax.axhline(y=0.250, color='blue', linestyle='--', linewidth=1.5, label='Batting League Average')
         y_label = "Batting Average"
         ax.set_xlim(0, 70)
         ax.set_ylim(.150, .400)
 
+    ax.legend()
     for i, name in enumerate(names):
         ax.annotate(name, (stat_1[i], stat_2[i]), textcoords="offset points", xytext=(5, 5))
 
