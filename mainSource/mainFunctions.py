@@ -1,3 +1,5 @@
+from fontTools.ttLib.tables import sbixGlyph
+
 from apiLoader import getTeamID
 from apiLoader import newMlbRosterData
 from databases.database import save_player_stat, get_cached_team_stats
@@ -15,7 +17,7 @@ def loadTeams():
             continue
     return teams
 
-def whichStatBar(statChoice, last_name, avg, hr, ops):
+def whichStatBar(statChoice, last_name, avg, hr, ops, slg):
     match statChoice:
         case 1:
             playerStats[last_name] = avg
@@ -26,6 +28,9 @@ def whichStatBar(statChoice, last_name, avg, hr, ops):
         case 3:
             playerStats[last_name] = hr
             return "Homeruns",  True
+        case 4:
+            playerStats[last_name] = slg
+            return "SLG", False
 
 def grabbingStatsforBar(statChoice, teamId, year, minimumPA):
     Stat = None
@@ -40,7 +45,7 @@ def grabbingStatsforBar(statChoice, teamId, year, minimumPA):
 
         print(f"{split['player']['fullName']}\n"
               f"Batting Average: {split['stat']['avg']}, Home Runs: {split['stat']['homeRuns']}, "
-              f"OPS: {split['stat']['ops']} Games Played: {split['stat']['gamesPlayed']}, "
+              f"OPS: {split['stat']['ops']} SLG:{split['stat']['slg']} Games Played: {split['stat']['gamesPlayed']}, "
               f"PA: {split['stat']['plateAppearances']}")
 
         save_player_stat(
@@ -51,6 +56,7 @@ def grabbingStatsforBar(statChoice, teamId, year, minimumPA):
             split['stat']['homeRuns'],
             split['stat']['gamesPlayed'],
             split['stat']['ops'],
+            split['stat']['slg'],
             split['stat']['plateAppearances']
         )
 
@@ -59,7 +65,8 @@ def grabbingStatsforBar(statChoice, teamId, year, minimumPA):
             split['player']['lastName'],
             split['stat']['avg'],
             split['stat']['homeRuns'],
-            split['stat']['ops']
+            split['stat']['ops'],
+            split['stat']['slg']
         )
 
     return Stat, isInt, playerStats
@@ -73,16 +80,16 @@ def grabbingStatsforScatter(teamId, year, minimumPA):
     if cached:
         print("Using cached data")
         for row in cached:
-            last_name, full_name, avg, hr, gp, ops, pa = row
+            last_name, full_name, avg, hr, gp, ops, slg, pa = row
 
             if pa < minimumPA:
                 continue
 
             print(f"{full_name}\n"
-                  f"Batting Average: {avg}, Home Runs: {hr}, OPS: {ops} "
+                  f"Batting Average: {avg}, Home Runs: {hr}, OPS: {ops} SLG: {slg}"
                   f"Games Played: {gp}, PA: {pa}")
 
-            playerStats[last_name] = avg, ops, hr
+            playerStats[last_name] = avg, ops, hr, slg
 
     else:
         print("Fetching from API...")
@@ -96,13 +103,14 @@ def grabbingStatsforScatter(teamId, year, minimumPA):
 
             print(f"{split['player']['fullName']}\n"
                   f"Batting Average: {split['stat']['avg']}, Home Runs: {split['stat']['homeRuns']}, "
-                  f"OPS: {split['stat']['ops']} Games Played: {split['stat']['gamesPlayed']}, "
+                  f"OPS: {split['stat']['ops']} SLG:{split['stat']['slg']} Games Played: {split['stat']['gamesPlayed']}, "
                   f"PA: {split['stat']['plateAppearances']}")
 
             lastName = split['player']['lastName']
             fullName = split['player']['fullName']
             avg = split['stat']['avg']
             ops = split['stat']['ops']
+            slg = split['stat']['slg']
             hr = split['stat']['homeRuns']
             gamesPlayed = split['stat']['gamesPlayed']
             plateAppearances = split['stat']['plateAppearances']
@@ -115,8 +123,9 @@ def grabbingStatsforScatter(teamId, year, minimumPA):
                 hr,
                 gamesPlayed,
                 ops,
+                slg,
                 plateAppearances
             )
 
-            playerStats[lastName] = avg, ops, hr
+            playerStats[lastName] = avg, ops, hr, slg
     return playerStats

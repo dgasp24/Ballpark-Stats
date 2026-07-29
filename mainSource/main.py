@@ -23,7 +23,7 @@ while True:
         match whichGraph:
             case 1:
 
-                statChoice = int(input("What would you like to have the chart show?\n1. Batting Average\n2. OPS\n3. Homeruns\n"))
+                statChoice = int(input("What would you like to have the chart show?\n1. Batting Average\n2. OPS\n3. Homeruns\n4. SLG"))
 
                 Stat, isInt, playerStats = grabbingStatsforBar(statChoice, teamId, year, minimumPA)
 
@@ -43,7 +43,7 @@ while True:
                     continue
             case 2:
 
-                compareStat1 = int(input("What would you like to compare? (X Axis)\n1. Batting Average\n2. OPS\n3. Homeruns\n"))
+                compareStat1 = int(input("What would you like to compare? (X Axis)\n1. Batting Average\n2. OPS\n3. Homeruns\n4. SLG\n"))
                 compareStat2 = int(input("and? (Y Axis)\n"))
                 playerStats = grabbingStatsforScatter(teamId, year, minimumPA)
                 userExit = input("Would you like to exit (y/n): ")
