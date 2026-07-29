@@ -1,6 +1,9 @@
 from plot import generateBarGraph, generateScatterPlot
 from databases.database import get_cached_team_stats
 from mainFunctions import grabbingStatsforBar, grabbingStatsforScatter, loadTeams
+from apiLoader import allMLBPlayerData
+
+allMLBPlayerData(2022)
 
 playerStats = {}
 global statChoice

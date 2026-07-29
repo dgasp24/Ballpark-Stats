@@ -21,6 +21,22 @@ def newMlbRosterData(team, season):
         print("Error, failed to get data")
         return None
 
+def allMLBPlayerData(season):
+    allMLBAPI = f"{mlbAPI}/api/v1/stats"
+    param = {
+        "stats": "season",
+        "group": "hitting",
+        "season": season,
+        "sportId": 1,
+        "limit": 1000,
+        "playerPool": "ALL"
+    }
+
+    response = requests.get(allMLBAPI, params=param)
+
+    print(response.json())
+
+
 def getTeamID():
     response = requests.get(f"{mlbAPI}/api/v1/teams/")
     if response.status_code == 200:
