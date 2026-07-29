@@ -1,7 +1,5 @@
-from fontTools.ttLib.tables import sbixGlyph
-
 from apiLoader import getTeamID
-from apiLoader import newMlbRosterData
+from apiLoader import newMlbRosterData, allMLBPlayerData
 from databases.database import save_player_stat, get_cached_team_stats
 
 positions = {"Outfielder", "Infielder", "Hitter", "Catcher"}
