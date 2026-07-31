@@ -33,7 +33,7 @@ def whichStatBar(statChoice, last_name, avg, hr, ops, slg):
 def grabbingStatsforBar(statChoice, teamId, year, minimumPA):
     Stat = None
     isInt = None
-    if teamId != "N/A":
+    if teamId != "MLB":
         statsData = newMlbRosterData(teamId, year)
         splits = statsData['stats'][0]['splits']
 
@@ -96,7 +96,7 @@ def grabbingStatsforScatter(teamId, year, minimumPA):
     Stat = None
     isInt = None
 
-    if teamId != "N/A":
+    if teamId != "MLB":
         cached = get_cached_team_stats(teamId, year)
 
         if cached:

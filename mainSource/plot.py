@@ -2,16 +2,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def generateBarGraph(playerStats, isINT, season, team, whichStat):
+def generateBarGraph(playerStats, isINT, season, team, whichStat, playerName):
     player = list(playerStats.keys())
     stats = list(playerStats.values())
 
-    colors = ['red' if p == "Yordan Alvarez" else 'steelblue' for p in player]
+    if team == "MLB":
+        colors = ['red' if p == playerName else 'steelblue' for p in player]
+    else:
+        colors = "steelblue"
+
     print(playerStats)
 
     try:
         if isINT:
-            fig, ax = plt.subplots(figsize=(20,8))
+            fig, ax = plt.subplots()
             hitting_stats = [int(x) for x in stats]
             ax.bar(player, hitting_stats, color=colors)
 
@@ -20,16 +24,16 @@ def generateBarGraph(playerStats, isINT, season, team, whichStat):
             ax.set_ylim(0, max(hitting_stats)+10)
             ax.set_yticks(np.arange(0, max(hitting_stats)+10, 5))
 
-            plt.xticks(rotation=90, fontsize=6)
+            plt.xticks(rotation=90)
 
             plt.tight_layout()
             plt.show()
         elif not isINT:
-            fig, ax = plt.subplots(figsize=(20,8))
+            fig, ax = plt.subplots()
             hitting_stats = [float(x) for x in stats]
             ax.bar(player, hitting_stats, color=colors)
 
-            plt.xticks(rotation=90, fontsize=6)
+            plt.xticks(rotation=90)
 
             ax.set_ylabel(f'{whichStat}')
             ax.set_title(f'{whichStat} by {team} Player ({season})')
@@ -40,7 +44,7 @@ def generateBarGraph(playerStats, isINT, season, team, whichStat):
     except:
         print("Error, failed to generate chart")
 
-def generateScatterPlot(playerStats, stat1, stat2, team, year, pa):
+def generateScatterPlot(playerStats, stat1, stat2, team, year, pa, playerName):
     names = []
     stat_1 = []
     stat_2 = []
@@ -54,11 +58,12 @@ def generateScatterPlot(playerStats, stat1, stat2, team, year, pa):
 
     fig, ax = plt.subplots()
 
-    colors = ['red' if p == "Yordan Alvarez" else 'steelblue' for p in names]
+    colors = ['red' if p == playerName else 'steelblue' for p in names]
+
     ax.scatter(stat_1, stat_2, color=colors)
 
+    print(playerStats)
 
-    print(names)
     STAT_INFO = {
         0: {"label": "Batting", "avg": 0.250},
         1: {"label": "OPS", "avg": 0.750},
@@ -76,6 +81,13 @@ def generateScatterPlot(playerStats, stat1, stat2, team, year, pa):
 
     x_label = x_info["label"]
     y_label = y_info["label"]
+
+    for i, name in enumerate(names):
+        if team == "MLB":
+            if name == playerName:
+                ax.annotate(name, (stat_1[i], stat_2[i]), textcoords="offset points", xytext=(5, 5))
+        else:
+            ax.annotate(name, (stat_1[i], stat_2[i]), textcoords="offset points", xytext=(5, 5))
 
     ax.legend()
 
