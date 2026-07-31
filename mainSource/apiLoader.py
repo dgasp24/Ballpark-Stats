@@ -31,10 +31,13 @@ def allMLBPlayerData(season):
         "limit": 1000,
         "playerPool": "ALL"
     }
-
     response = requests.get(allMLBAPI, params=param)
 
-    print(response.json())
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print("Error, failed to get data")
+        return None
 
 
 def getTeamID():

@@ -6,31 +6,35 @@ def generateBarGraph(playerStats, isINT, season, team, whichStat):
     player = list(playerStats.keys())
     stats = list(playerStats.values())
 
+    colors = ['red' if p == "Yordan Alvarez" else 'steelblue' for p in player]
+    print(playerStats)
+
     try:
         if isINT:
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(20,8))
             hitting_stats = [int(x) for x in stats]
-            ax.bar(player, hitting_stats, color="steelblue")
+            ax.bar(player, hitting_stats, color=colors)
 
             ax.set_ylabel(f'{whichStat}')
             ax.set_title(f'{whichStat} by {team} Player ({season})')
             ax.set_ylim(0, max(hitting_stats)+10)
             ax.set_yticks(np.arange(0, max(hitting_stats)+10, 5))
 
-            plt.xticks(rotation=90)
+            plt.xticks(rotation=90, fontsize=6)
+
             plt.tight_layout()
             plt.show()
         elif not isINT:
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(20,8))
             hitting_stats = [float(x) for x in stats]
-            ax.bar(player, hitting_stats, color="steelblue")
+            ax.bar(player, hitting_stats, color=colors)
+
+            plt.xticks(rotation=90, fontsize=6)
 
             ax.set_ylabel(f'{whichStat}')
             ax.set_title(f'{whichStat} by {team} Player ({season})')
             ax.set_ylim(0.05, 0.400)
             ax.set_yticks(np.arange(.05, max(hitting_stats)+.100, 0.050))
-
-            plt.xticks(rotation=90)
             plt.tight_layout()
             plt.show()
     except:
@@ -50,10 +54,11 @@ def generateScatterPlot(playerStats, stat1, stat2, team, year, pa):
 
     fig, ax = plt.subplots()
 
-    ax.scatter(stat_1, stat_2, color='steelblue')
+    colors = ['red' if p == "Yordan Alvarez" else 'steelblue' for p in names]
+    ax.scatter(stat_1, stat_2, color=colors)
 
 
-    print(stat1, stat2)
+    print(names)
     STAT_INFO = {
         0: {"label": "Batting", "avg": 0.250},
         1: {"label": "OPS", "avg": 0.750},
@@ -73,8 +78,6 @@ def generateScatterPlot(playerStats, stat1, stat2, team, year, pa):
     y_label = y_info["label"]
 
     ax.legend()
-    for i, name in enumerate(names):
-        ax.annotate(name, (stat_1[i], stat_2[i]), textcoords="offset points", xytext=(5, 5))
 
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
