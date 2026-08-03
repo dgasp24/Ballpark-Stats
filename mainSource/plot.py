@@ -5,42 +5,43 @@ import matplotlib.pyplot as plt
 def generateBarGraph(playerStats, isINT, season, team, whichStat, playerName):
     player = list(playerStats.keys())
     stats = list(playerStats.values())
+    name = None
 
     if team == "MLB":
         colors = ['red' if p == playerName else 'steelblue' for p in player]
+        name = playerName in player
     else:
         colors = "steelblue"
 
-    print(playerStats)
 
     try:
+        fig, ax = plt.subplots()
+
         if isINT:
-            fig, ax = plt.subplots()
             hitting_stats = [int(x) for x in stats]
             ax.bar(player, hitting_stats, color=colors)
 
             ax.set_ylabel(f'{whichStat}')
             ax.set_title(f'{whichStat} by {team} Player ({season})')
-            ax.set_ylim(0, max(hitting_stats)+10)
-            ax.set_yticks(np.arange(0, max(hitting_stats)+10, 5))
+            ax.set_ylim(0, max(hitting_stats) + 10)
+            ax.set_yticks(np.arange(0, max(hitting_stats) + 10, 5))
 
-            plt.xticks(rotation=90)
-
-            plt.tight_layout()
-            plt.show()
         elif not isINT:
-            fig, ax = plt.subplots()
             hitting_stats = [float(x) for x in stats]
             ax.bar(player, hitting_stats, color=colors)
-
-            plt.xticks(rotation=90)
 
             ax.set_ylabel(f'{whichStat}')
             ax.set_title(f'{whichStat} by {team} Player ({season})')
             ax.set_ylim(0.05, 0.400)
-            ax.set_yticks(np.arange(.05, max(hitting_stats)+.100, 0.050))
-            plt.tight_layout()
-            plt.show()
+            ax.set_yticks(np.arange(.05, max(hitting_stats) + .100, 0.050))
+
+        if team != "MLB":
+            plt.xticks(rotation=60)
+        else:
+            ax.set_xticks([])
+        plt.tight_layout()
+        plt.show()
+
     except:
         print("Error, failed to generate chart")
 
@@ -61,8 +62,6 @@ def generateScatterPlot(playerStats, stat1, stat2, team, year, pa, playerName):
     colors = ['red' if p == playerName else 'steelblue' for p in names]
 
     ax.scatter(stat_1, stat_2, color=colors)
-
-    print(playerStats)
 
     STAT_INFO = {
         0: {"label": "Batting", "avg": 0.250},

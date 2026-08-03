@@ -66,7 +66,6 @@ while True:
                     print("Please enter a valid input")
         ##IF CHOOSING ALL MLB PLAYERS
         elif dataPick == 2:
-            print("You have pick 2")
             year = int(input("Enter year: "))
             minimumPA = int(input("What would like the minimum plate appearances be? "))
             whichGraph = int(input("Which graph would you like?\n1. Bar Graph\n2. Scatter Plot "))
@@ -78,7 +77,7 @@ while True:
                     statChoice = int(input(
                         "What would you like to have the chart show?\n1. Batting Average\n2. OPS\n3. Homeruns\n4. SLG"))
 
-                    Stat, isInt, playerStats = grabbingStatsforBar(statChoice, year, minimumPA)
+                    Stat, isInt, playerStats = grabbingStatsforBar(statChoice,"MLB", year, minimumPA)
 
                     userExit = input("Would you like to exit (y/n): ")
                     graph = input("Would you want a chart? (y/n): ")
@@ -118,6 +117,7 @@ while True:
                         continue
                 case _:
                     print("Please enter a valid input")
+                    continue
 
     except:
         print("Error! Please try again")
