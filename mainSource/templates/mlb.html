@@ -1,12 +1,9 @@
-{% extends "layout.html" %}
+{% extends "layout.html"%}
 
 {% block body %}
     <form>
         <label for="year">Year</label><br>
         <input type = "text" name ="year" id="year" required><br>
-
-        <label for="team">Team</label><br>
-        <input type = "text" name = "team" id="team" required><br>
 
         <label for="PA">Minimum Plate Appearances</label><br>
         <input type = "text" name = "PA" id="PA" required><br>
@@ -23,9 +20,9 @@
     </form>
 
     {% if playerStats %}
-
+<div style="max-height: 200px; overflow-y: auto;">
             <table class="table" id = "playerTable">
-              <thead class = "thead-dark">
+              <thead class ="table-light">
                 <tr>
                   <th scope="col">{{ team }} Players</th>
                   <th scope="col">{{ stat }}</th>
@@ -40,10 +37,9 @@
               {% endfor %}
               </tbody>
             </table>
+    </div>
         {% else %}
             <p></p>
     {% endif %}
-
-
 
 {% endblock %}

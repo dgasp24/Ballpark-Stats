@@ -31,6 +31,7 @@ def whichStatBar(statChoice, last_name, avg, hr, ops, slg):
             return "SLG", False
 
 def grabbingStatsforBar(statChoice, teamId, year, minimumPA):
+    playerStats.clear()
     Stat = None
     isInt = None
     if teamId != "MLB":
@@ -41,34 +42,69 @@ def grabbingStatsforBar(statChoice, teamId, year, minimumPA):
             if split['stat']['plateAppearances'] < minimumPA:
                 continue
 
-            print(f"{split['player']['fullName']}\n"
-                  f"Batting Average: {split['stat']['avg']}, Home Runs: {split['stat']['homeRuns']}, "
-                  f"OPS: {split['stat']['ops']} SLG:{split['stat']['slg']} Games Played: {split['stat']['gamesPlayed']}, "
-                  f"PA: {split['stat']['plateAppearances']}")
+            fullName = split['player']['fullName']
+            avg = split['stat']['avg']
+            homeRuns = split['stat']['homeRuns']
+            ops = split['stat']['ops']
+            slg = split['stat']['slg']
+            gamesPlayed = split['stat']['gamesPlayed']
+            pa = int(split['stat']['plateAppearances'])
 
-            save_player_stat(
-                teamId, year,
-                split['player']['lastName'],
-                split['player']['fullName'],
-                split['stat']['avg'],
-                split['stat']['homeRuns'],
-                split['stat']['gamesPlayed'],
-                split['stat']['ops'],
-                split['stat']['slg'],
-                split['stat']['plateAppearances']
-            )
+            print(f"{fullName}\n"
+                  f"Batting Average: {avg}, Home Runs: {homeRuns}, "
+                  f"OPS: {ops} SLG:{slg} Games Played: {gamesPlayed}, "
+                  f"PA: {pa}")
 
             Stat, isInt = whichStatBar(
                 statChoice,
-                split['player']['lastName'],
-                split['stat']['avg'],
-                split['stat']['homeRuns'],
-                split['stat']['ops'],
-                split['stat']['slg']
+                fullName,
+                avg,
+                homeRuns,
+                ops,
+                slg
             )
     else:
         statsData = allMLBPlayerData(year)
         splits = statsData['stats'][0]['splits']
+
+        for split in splits:
+            if split['stat']['plateAppearances'] < minimumPA:
+                continue
+
+            fullName = split['player']['fullName']
+            avg = split['stat']['avg']
+            homeRuns = split['stat']['homeRuns']
+            ops = split['stat']['ops']
+            slg = split['stat']['slg']
+            gamesPlayed = split['stat']['gamesPlayed']
+            pa = int(split['stat']['plateAppearances'])
+
+            print(f"{fullName}\n"
+                  f"Batting Average: {avg}, Home Runs: {homeRuns}, "
+                  f"OPS: {ops} SLG:{slg} Games Played: {gamesPlayed}, "
+                  f"PA: {pa}")
+
+            Stat, isInt = whichStatBar(
+                statChoice,
+                fullName,
+                avg,
+                homeRuns,
+                ops,
+                slg
+            )
+
+
+    return Stat, isInt, playerStats
+
+def grabbingStatsforScatter(teamId, year, minimumPA):
+    Stat = None
+    isInt = None
+
+    if teamId != "MLB":
+        print("Fetching from API...")
+        mlbData = newMlbRosterData(teamId, year)
+
+        splits = mlbData['stats'][0]['splits']
 
         for split in splits:
             if split['stat']['plateAppearances'] < minimumPA:
@@ -79,77 +115,17 @@ def grabbingStatsforBar(statChoice, teamId, year, minimumPA):
                   f"OPS: {split['stat']['ops']} SLG:{split['stat']['slg']} Games Played: {split['stat']['gamesPlayed']}, "
                   f"PA: {split['stat']['plateAppearances']}")
 
-            Stat, isInt = whichStatBar(
-                statChoice,
-                split['player']['fullName'],
-                split['stat']['avg'],
-                split['stat']['homeRuns'],
-                split['stat']['ops'],
-                split['stat']['slg']
-            )
+            lastName = split['player']['lastName']
+            fullName = split['player']['fullName']
+            avg = split['stat']['avg']
+            ops = split['stat']['ops']
+            slg = split['stat']['slg']
+            hr = split['stat']['homeRuns']
+            gamesPlayed = split['stat']['gamesPlayed']
+            plateAppearances = split['stat']['plateAppearances']
 
-        
 
-    return Stat, isInt, playerStats
-
-def grabbingStatsforScatter(teamId, year, minimumPA):
-    Stat = None
-    isInt = None
-
-    if teamId != "MLB":
-        cached = get_cached_team_stats(teamId, year)
-
-        if cached:
-            print("Using cached data")
-            for row in cached:
-                last_name, full_name, avg, hr, gp, ops, slg, pa = row
-
-                if pa < minimumPA:
-                    continue
-
-                print(f"{full_name}\n"
-                      f"Batting Average: {avg}, Home Runs: {hr}, OPS: {ops} SLG: {slg}"
-                      f"Games Played: {gp}, PA: {pa}")
-
-                playerStats[last_name] = avg, ops, hr, slg
-
-        else:
-            print("Fetching from API...")
-            mlbData = newMlbRosterData(teamId, year)
-
-            splits = mlbData['stats'][0]['splits']
-
-            for split in splits:
-                if split['stat']['plateAppearances'] < minimumPA:
-                    continue
-
-                print(f"{split['player']['fullName']}\n"
-                      f"Batting Average: {split['stat']['avg']}, Home Runs: {split['stat']['homeRuns']}, "
-                      f"OPS: {split['stat']['ops']} SLG:{split['stat']['slg']} Games Played: {split['stat']['gamesPlayed']}, "
-                      f"PA: {split['stat']['plateAppearances']}")
-
-                lastName = split['player']['lastName']
-                fullName = split['player']['fullName']
-                avg = split['stat']['avg']
-                ops = split['stat']['ops']
-                slg = split['stat']['slg']
-                hr = split['stat']['homeRuns']
-                gamesPlayed = split['stat']['gamesPlayed']
-                plateAppearances = split['stat']['plateAppearances']
-
-                save_player_stat(
-                    teamId, year,
-                    lastName,
-                    fullName,
-                    avg,
-                    hr,
-                    gamesPlayed,
-                    ops,
-                    slg,
-                    plateAppearances
-                )
-
-                playerStats[lastName] = avg, ops, hr, slg
+            playerStats[lastName] = avg, ops, hr, slg
     else:
         mlbData = allMLBPlayerData(year)
 
