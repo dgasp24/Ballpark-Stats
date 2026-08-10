@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <form>
+        <label for="year">Year</label><br>
+        <input type = "text" name ="year" id="year"><br>
+
+        <label for="team">Team</label><br>
+        <input type = "text" name = "team" id="team"><br>
+
+        <label for="PA">Minimum Plate Appearances</label><br>
+        <input type = "text" name = "PA" id="PA"><br>
+
+        <input type = "radio" name = "battingAverage" value = "battingAverage">
+        <label>Batting Average</label>
+
+        <input type = "radio" name = "ops" value = "ops">
+        <label>OPS</label>
+
+        <input type = "radio" name = "homeruns" value = "homeruns">
+        <label>Homeruns</label>
+
+        <input type = "radio" name = "slg" value = "slg">
+        <label>SLG</label><br>
+
+
+        <button type = "submit" id="submit">Submit</button>
+    </form>
+{% endblock %}
