@@ -1,13 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for
 from mainFunctions import loadTeams, grabbingStatsforBar
+from plot import generateBarGraph
 
 app = Flask(__name__)
 team_lookup = loadTeams()
 @app.route('/')
 def index():
-    stat = request.args.get('stat')
-    if stat == "team":
-        return redirect(url_for('teams', **request.args))
     return render_template('index.html')
 
 @app.route('/teams')
@@ -38,13 +36,16 @@ def teams():
     elif stat == 4:
         stat = "SLG"
 
-    return render_template('teams.html', playerStats = playerStats, stat = stat, team=team.capitalize(), year=year)
+    graph = generateBarGraph(playerStats, isInt, year, team.capitalize(), stat, "", pa)
+
+    return render_template('teams.html', playerStats = playerStats, stat = stat, team=team.capitalize(), year=year, graph=graph)
 
 @app.route('/mlb')
 def mlb():
     year = request.args.get('year')
     pa = request.args.get('PA')
     stat = request.args.get('statChoice')
+    player = request.args.get('player')
 
     if not pa:
         return render_template('mlb.html', playerStats = None, stat = None)
@@ -65,7 +66,9 @@ def mlb():
     elif stat == 4:
         stat = "SLG"
 
-    return render_template('mlb.html', playerStats = playerStats, stat = stat, team="MLB", year=year)
+    graph = generateBarGraph(playerStats, isInt, year, "MLB", stat, player, pa)
+
+    return render_template('mlb.html', playerStats = playerStats, stat = stat, team="MLB", year=year, graph=graph)
 
 
 app.run(host='0.0.0.0', port=5000, debug = True)

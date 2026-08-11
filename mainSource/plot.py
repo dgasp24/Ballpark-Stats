@@ -1,8 +1,11 @@
+from logging import exception
+
 import numpy as np
 import matplotlib.pyplot as plt
+import mpld3
 
 
-def generateBarGraph(playerStats, isINT, season, team, whichStat, playerName):
+def generateBarGraph(playerStats, isINT, season, team, whichStat, playerName, pa):
     player = list(playerStats.keys())
     stats = list(playerStats.values())
     name = None
@@ -22,28 +25,36 @@ def generateBarGraph(playerStats, isINT, season, team, whichStat, playerName):
             ax.bar(player, hitting_stats, color=colors)
 
             ax.set_ylabel(f'{whichStat}')
-            ax.set_title(f'{whichStat} by {team} Player ({season})')
+            ax.set_title(f'{whichStat} by {team} Player ({season}) (Min. of {pa} PA)')
             ax.set_ylim(0, max(hitting_stats) + 10)
             ax.set_yticks(np.arange(0, max(hitting_stats) + 10, 5))
+
+
 
         elif not isINT:
             hitting_stats = [float(x) for x in stats]
             ax.bar(player, hitting_stats, color=colors)
 
             ax.set_ylabel(f'{whichStat}')
-            ax.set_title(f'{whichStat} by {team} Player ({season})')
+            ax.set_title(f'{whichStat} by {team} Player ({season}) (Min. of {pa} PA)')
             ax.set_ylim(0.05, 0.400)
             ax.set_yticks(np.arange(.05, max(hitting_stats) + .100, 0.050))
 
         if team != "MLB":
-            plt.xticks(rotation=60)
+            ax.set_xticks(range(len(player)))
+            ax.set_xticklabels(player, fontsize=8)
         else:
-            ax.set_xticks([])
-        plt.tight_layout()
-        plt.show()
+            ax.set_xticks(player)
+            ax.set_xticklabels(player, fontsize=8)
 
-    except:
-        print("Error, failed to generate chart")
+
+        plt.tight_layout()
+        graph = mpld3.fig_to_html(fig)
+        plt.close()
+        return graph
+
+    except Exception as e:
+        print("Error, failed to generate chart", e)
 
 def generateScatterPlot(playerStats, stat1, stat2, team, year, pa, playerName):
     names = []

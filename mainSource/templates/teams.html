@@ -22,10 +22,15 @@
         <button type = "submit" id="submit">Submit</button>
     </form>
 
-    {% if playerStats %}
+    <label>Graph</label>
+    <input type="checkbox" id = "graph">
+    <label>Table</label>
+    <input type="checkbox" id = "table">
 
+    {% if playerStats %}
+    <div id="divTable" class ="hidden">
             <table class="table" id = "playerTable">
-              <thead class = "thead-dark">
+              <thead class = "table-dark">
                 <tr>
                   <th scope="col">{{ team }} Players</th>
                   <th scope="col">{{ stat }}</th>
@@ -40,10 +45,11 @@
               {% endfor %}
               </tbody>
             </table>
+    </div>
         {% else %}
             <p></p>
     {% endif %}
-
-
-
+    <div id = "graph-container"  class ="hidden">
+        {{ graph|safe }}
+    </div>
 {% endblock %}

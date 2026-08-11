@@ -34,10 +34,10 @@ while True:
                     if userExit == "y" and graph == "n":
                         break
                     elif userExit == "y" and graph == "y":
-                        generateBarGraph(playerStats, isInt, year, userTeam.capitalize(), Stat, name)
+                        generateBarGraph(playerStats, isInt, year, userTeam.capitalize(), Stat, name, minimumPA)
                         break
                     elif userExit == "n" and graph == "y":
-                        generateBarGraph(playerStats, isInt, year, userTeam.capitalize(), Stat, name)
+                        generateBarGraph(playerStats, isInt, year, userTeam.capitalize(), Stat, name, minimumPA)
                         playerStats.clear()
                         continue
                     elif userExit == "n" and graph == "n":

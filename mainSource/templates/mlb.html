@@ -16,13 +16,21 @@
             <option value = 4>SLG</option>
         </select>
 
+        <label>Player to highlight</label>
+        <input name = "player" type="text">
+
         <button type = "submit" id="submit">Submit</button>
     </form>
 
+    <label>Graph</label>
+    <input type="checkbox" id = "graph">
+    <label>Table</label>
+    <input type="checkbox" id = "table">
+
     {% if playerStats %}
-<div style="max-height: 200px; overflow-y: auto;">
+<div id="divTable" class ="hidden">
             <table class="table" id = "playerTable">
-              <thead class ="table-light">
+              <thead class ="table-dark">
                 <tr>
                   <th scope="col">{{ team }} Players</th>
                   <th scope="col">{{ stat }}</th>
@@ -41,5 +49,7 @@
         {% else %}
             <p></p>
     {% endif %}
-
+    <div id = "graph-container"  class ="hidden">
+            {{ graph|safe }}
+    </div>
 {% endblock %}

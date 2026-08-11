@@ -1,15 +1,18 @@
 {% extends "layout.html" %}
 
+
 {% block body %}
-
-    <div id = "selection">
-        <form id = "teams" action = "/teams">
-            <button type = "submit" id="teamsBtn">Teams</button>
-        </form>
-        <form id = "MLB" action = "/mlb">
-            <button type = "submit" id="MLBBtn">MLB</button>
-        </form>
+    <div class = "d-flex justify-content-center align-items-center vh-100">
+        <header class = "heading">
+            <h1 id = "title">MLB Stat Viewer</h1>
+            <div id = "selection">
+                <form id = "teams" action = "/teams">
+                    <button type = "submit" id="teamsBtn">Teams</button>
+                </form>
+                <form id = "MLB" action = "/mlb">
+                    <button type = "submit" id="MLBBtn">MLB</button>
+                </form>
+            </div>
+        </header>
     </div>
-
-
 {% endblock %}

@@ -1,16 +1,27 @@
 .heading{
     background-color: lightslategray;
     padding: 10px;
-    margin-top: 10px;
     border: 2px solid black;
     width: fit-content;
+    height: fit-content;
     box-shadow: 1px 2px 5px black;
 }
 
 #selection{
     border-radius: 10px;
-    background-color: ghostwhite;
     margin-top: 20px;
+}
+
+#divTable{
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#graph-container{
+    height: fit-content;
     width: fit-content;
-    justify-content: center;
+}
+
+.hidden{
+    display: none;
 }
