@@ -2,3 +2,4 @@ matplotlib==3.11.1
 numpy==2.5.1
 Requests==2.34.2
 mpld3
+gunicorn
