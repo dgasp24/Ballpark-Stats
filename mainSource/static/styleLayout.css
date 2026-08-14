@@ -1,0 +1,74 @@
+
+
+*{
+  font-family: "Chalkboard SE", sans-serif;
+}
+
+body::before{
+  position: fixed;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("BaseballField.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 10%;
+  filter: blur(8px);
+  z-index: -1;
+  transform: scale(1.1);
+}
+
+#heading{
+    border: 2px solid black;
+    box-shadow: 1px 2px 5px black;
+    display: flow;
+    text-align: center;
+    border-radius: 15px;
+    background: #1b4332;
+}
+
+#title{
+  color: #f4f1de;
+}
+
+.selectionButton{
+    border: 2px solid #2c3e50;
+    box-shadow: 1px 2px 5px black;
+    color: #f4f1de;
+    background: #1a3a5c;
+}
+
+.selectionButton:hover{
+    background: #0e202e;
+    color: #c1bdb1;
+}
+
+#divTable{
+    overflow-y: auto;
+    width: 500px;
+    margin-top: 20px;
+    background: #2c3e50;
+    border-radius: 15px;
+}
+
+#graph-container{
+    height: fit-content;
+    width: fit-content;
+    background: #a3bed6;
+    border-radius: 15px;
+    color: white;
+}
+
+/* hidden class for table and graph */
+.hidden{
+    display: none;
+    width: fit-content;
+}
+
+input{
+    border-radius: 10px;
+    border: 2px solid black;
+    margin: 5px;
+}

@@ -1,12 +1,27 @@
 {% extends "layout.html"%}
 
-{% block body %}
-    <form>
-        <label for="year">Year</label><br>
-        <input type = "text" name ="year" id="year" required><br>
+{% block header %}
+<link href="{{ url_for('static', filename='styleMLB.css') }}" rel="stylesheet">
+{% endblock %}
 
-        <label for="PA">Minimum Plate Appearances</label><br>
+{% block body %}
+
+    <div id = "divHeading">
+        <header id = "heading" class = "bg-gradient">
+            <h1 id = "title" >Ballpark Stats</h1>
+                    <a href="{{ url_for('teams') }}">
+                        <button type = "submit" id="teamBtn" class = "btn bg-gradient selectionButton">Teams</button>
+                    </a>
+        </header>
+        </div>
+     <form id ="selection" >
+        <label for="year">Year</label>
+        <input type = "text" name ="year" id="year" required><br>
+         <label for="PA">Min. PA.</label>
         <input type = "text" name = "PA" id="PA" required><br>
+
+        <label>Player to highlight</label>
+        <input name = "player" type="text"><br>
 
         <select name = "statChoice" required>
             <option value = None>Stat</option>
@@ -16,16 +31,13 @@
             <option value = 4>SLG</option>
         </select>
 
-        <label>Player to highlight</label>
-        <input name = "player" type="text">
+        <button type = "submit" id="submit" class ="btn bg-gradient selectionButton">Submit</button>
 
-        <button type = "submit" id="submit">Submit</button>
+        <label>Graph</label>
+        <input type="checkbox" id = "graph">
+        <label>Table</label>
+        <input type="checkbox" id = "table">
     </form>
-
-    <label>Graph</label>
-    <input type="checkbox" id = "graph">
-    <label>Table</label>
-    <input type="checkbox" id = "table">
 
     {% if playerStats %}
 <div id="divTable" class ="hidden">

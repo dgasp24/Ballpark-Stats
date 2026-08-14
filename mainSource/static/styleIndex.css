@@ -1,0 +1,23 @@
+#heading{
+    padding: 20px;
+    width: fit-content;
+    height: fit-content;
+    display: flow;
+}
+
+#title{
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+
+#buttonContainer{
+    gap: 50px;
+    display: flex;
+    width: fit-content;
+}
+
+.selectionButton{
+    width: 200px;
+    font-size: 20px;
+}
+
