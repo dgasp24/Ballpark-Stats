@@ -1,74 +1,291 @@
+:root {
+    --bg: #0a141f;
+    --panel: #13291f;
+    --panel-line: rgba(242, 177, 52, 0.18);
+    --accent: #f2b134;
+    --accent-hot: #e2574c;
+    --text: #f5efe1;
+    --text-muted: #9fb2ad;
 
+    --font-display: "Teko", sans-serif;
+    --font-body: "Work Sans", sans-serif;
+    --font-mono: "Roboto Mono", monospace;
+}
 
 *{
-  font-family: "Chalkboard SE", sans-serif;
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    background: var(--bg);
+    font-family: var(--font-body);
+    color: var(--text);
 }
 
 body::before{
-  position: fixed;
-  content: "";
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("BaseballField.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center 10%;
-  filter: blur(8px);
-  z-index: -1;
-  transform: scale(1.1);
+    position: fixed;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(rgba(10,20,31,0.92), rgba(10,20,31,0.92)),
+        url("BaseballField.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center 10%;
+    filter: blur(10px);
+    z-index: -1;
+    transform: scale(1.1);
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+    gap: 20px;
+}
+
+/* ---------- shared panel look (header, form, table, graph all match) ---------- */
+
+#heading, #selection, #divTable, #graph-container{
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+/* ---------- header ---------- */
+
+#divHeading{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 #heading{
-    border: 2px solid black;
-    box-shadow: 1px 2px 5px black;
-    display: flow;
+    padding: 16px 24px;
     text-align: center;
-    border-radius: 15px;
-    background: #1b4332;
+    position: sticky;
+    top: 12px;
+    z-index: 10;
 }
 
 #title{
-  color: #f4f1de;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 44px;
+    letter-spacing: 1px;
+    color: var(--text);
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
 }
 
+/* ---------- buttons ---------- */
+
 .selectionButton{
-    border: 2px solid #2c3e50;
-    box-shadow: 1px 2px 5px black;
-    color: #f4f1de;
-    background: #1a3a5c;
+    font-family: var(--font-body);
+    font-weight: 600;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    letter-spacing: 0.5px;
+    transition: background 0.15s ease, transform 0.15s ease;
 }
 
 .selectionButton:hover{
-    background: #0e202e;
-    color: #c1bdb1;
+    background: var(--accent-hot);
+    color: var(--text);
+    transform: translateY(-1px);
 }
 
-#divTable{
-    overflow-y: auto;
-    width: 500px;
-    margin-top: 20px;
-    background: #2c3e50;
-    border-radius: 15px;
+/* ---------- layout row ---------- */
+
+#contentRow{
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
 }
+
+#resultsContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* ---------- form ---------- */
+
+#selection{
+    padding: 20px 24px;
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+}
+
+#selection h1{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 12px 0;
+    color: var(--text);
+}
+
+#selection label{
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+input, select{
+    font-family: var(--font-body);
+    border-radius: 6px;
+    border: 1px solid var(--panel-line);
+    background: var(--bg);
+    color: var(--text);
+    padding: 6px 10px;
+    margin: 4px 0 8px 0;
+}
+
+input:focus, select:focus{
+    outline: none;
+    border-color: var(--accent);
+}
+
+#selection .selectionButton{
+    margin-top: 8px;
+    align-self: flex-start;
+}
+
+.checkboxRow{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.checkboxRow label{
+    margin: 0;
+    text-transform: none;
+    color: var(--text);
+    font-size: 14px;
+}
+
+input[type="checkbox"]{
+    margin: 0;
+    accent-color: var(--accent);
+}
+
+/* ---------- table ---------- */
+
+#divTable{
+    overflow: hidden;
+    width: fit-content;
+    height: fit-content;
+    padding: 0;
+    overflow-y:auto;
+    max-height: 60vh;
+}
+
+#playerTable{
+    margin-bottom: 0;
+    --bs-table-bg: var(--panel);
+    --bs-table-color: var(--text);
+    font-family: var(--font-mono);
+}
+
+#playerTable thead.table-dark{
+    --bs-table-bg: var(--bg);
+    --bs-table-color: var(--accent);
+    font-family: var(--font-body);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+#playerTable td, #playerTable th{
+    border-color: var(--panel-line) !important;
+    padding: 10px 16px;
+}
+
+#playerTable .rank{
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    color: var(--accent);
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+/* ---------- graph ---------- */
 
 #graph-container{
     height: fit-content;
     width: fit-content;
-    background: #a3bed6;
-    border-radius: 15px;
-    color: white;
+    padding: 12px;
 }
 
-/* hidden class for table and graph */
+#graph-container text{
+    fill: var(--text) !important;
+    font-family: var(--font-mono) !important;
+}
+
+/* ---------- utility ---------- */
+
 .hidden{
     display: none;
     width: fit-content;
 }
 
-input{
-    border-radius: 10px;
-    border: 2px solid black;
-    margin: 5px;
+@media (max-width: 700px) {
+    #contentRow, #resultsContainer{
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.toggleRow{
+    display: flex;
+    gap: 8px;
+    margin: 4px 0 8px 0;
+}
+
+.toggleBtn{
+    flex: 1;
+    padding: 6px 0;
+    border: 1px solid var(--panel-line);
+    background: var(--bg);
+    color: var(--text-muted);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.toggleBtn.active{
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
 }

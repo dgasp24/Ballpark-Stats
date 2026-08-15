@@ -5,27 +5,35 @@ import matplotlib.pyplot as plt
 import mpld3
 
 
+PANEL = "#13291f"
+ACCENT = "#f2b134"
+ACCENT_HOT = "#e2574c"
+TEXT = "#f5efe1"
+GRIDLINE = "#f2b134"
+
 def generateBarGraph(playerStats, isINT, season, team, whichStat, playerName, pa):
     player = list(playerStats.keys())
     stats = list(playerStats.values())
     name = None
 
     if team == "MLB":
-        colors = ['red' if p == playerName else 'steelblue' for p in player]
+        colors = [ACCENT_HOT if p == playerName else ACCENT for p in player]
         name = playerName in player
     else:
-        colors = "steelblue"
+        colors = ACCENT
 
 
     try:
         fig, ax = plt.subplots()
+        fig.patch.set_facecolor(PANEL)
+        ax.set_facecolor(PANEL)
 
         if isINT:
             hitting_stats = [int(x) for x in stats]
             ax.bar(player, hitting_stats, color=colors)
 
-            ax.set_ylabel(f'{whichStat}')
-            ax.set_title(f'{whichStat} by {team} Player ({season}) (Min. of {pa} PA)')
+            ax.set_ylabel(f'{whichStat}', color=TEXT)
+            ax.set_title(f'{whichStat} by {team} Player ({season}) (Min. of {pa} PA)', color=TEXT)
             ax.set_ylim(0, max(hitting_stats) + 10)
             ax.set_yticks(np.arange(0, max(hitting_stats) + 10, 5))
 
@@ -35,18 +43,28 @@ def generateBarGraph(playerStats, isINT, season, team, whichStat, playerName, pa
             hitting_stats = [float(x) for x in stats]
             ax.bar(player, hitting_stats, color=colors)
 
-            ax.set_ylabel(f'{whichStat}')
-            ax.set_title(f'{whichStat} by {team} Player ({season}) (Min. of {pa} PA)')
+            ax.set_ylabel(f'{whichStat}', color=TEXT)
+            ax.set_title(f'{whichStat} by {team} Player ({season}) (Min. of {pa} PA)', color=TEXT)
             ax.set_ylim(0.05, 0.400)
             ax.set_yticks(np.arange(.05, max(hitting_stats) + .100, 0.050))
 
         if team != "MLB":
             ax.set_xticks(range(len(player)))
-            ax.set_xticklabels(player, fontsize=8)
+            ax.set_xticklabels(player, fontsize=8, color=TEXT)
         else:
             ax.set_xticks(player)
-            ax.set_xticklabels(player, fontsize=8)
+            ax.set_xticklabels(player, fontsize=8, color=TEXT)
 
+        ax.tick_params(axis='x', colors=TEXT)
+        ax.tick_params(axis='y', colors=TEXT)
+
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['left'].set_color(TEXT)
+        ax.spines['bottom'].set_color(TEXT)
+
+        ax.grid(axis='y', color=GRIDLINE, alpha=0.15)
+        ax.set_axisbelow(True)
 
         plt.tight_layout()
         graph = mpld3.fig_to_html(fig)

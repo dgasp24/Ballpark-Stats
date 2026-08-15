@@ -36,9 +36,10 @@ def teams():
     elif stat == 4:
         stat = "SLG"
 
-    graph = generateBarGraph(playerStats, isInt, year, team.capitalize(), stat, "", pa)
+    sortedStats = dict(sorted(playerStats.items(), key=lambda item: float(item[1]), reverse=True))
+    graph = generateBarGraph(sortedStats, isInt, year, team.capitalize(), stat, "", pa)
 
-    return render_template('teams.html', playerStats = playerStats, stat = stat, team=team.capitalize(), year=year, graph=graph)
+    return render_template('teams.html', playerStats = sortedStats, stat = stat, team=team.capitalize(), year=year, graph=graph)
 
 @app.route('/mlb')
 def mlb():
@@ -66,9 +67,11 @@ def mlb():
     elif stat == 4:
         stat = "SLG"
 
-    graph = generateBarGraph(playerStats, isInt, year, "MLB", stat, player, pa)
+    sortedStats = dict(sorted(playerStats.items(), key=lambda item: float(item[1]), reverse=True))
+    graph = generateBarGraph(sortedStats, isInt, year, "MLB", stat, player, pa)
 
-    return render_template('mlb.html', playerStats = playerStats, stat = stat, team="MLB", year=year, graph=graph)
+
+    return render_template('mlb.html', playerStats = sortedStats, stat = stat, team="MLB", year=year, graph=graph)
 
 
 app.run(host='0.0.0.0', port=5000, debug = True)

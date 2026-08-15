@@ -30,6 +30,7 @@ def whichStatBar(statChoice, last_name, avg, hr, ops, slg):
             playerStats[last_name] = slg
             return "SLG", False
 
+
 def grabbingStatsforBar(statChoice, teamId, year, minimumPA):
     playerStats.clear()
     Stat = None

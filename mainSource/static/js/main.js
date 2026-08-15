@@ -10,3 +10,11 @@ checkGraph.addEventListener("click", () =>{
 checkTable.addEventListener("click", () =>{
     table.classList.toggle("hidden");
 })
+
+document.querySelectorAll('.toggleBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.toggleBtn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('chartType').value = btn.dataset.chart;
+    });
+});
