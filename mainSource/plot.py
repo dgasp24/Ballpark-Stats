@@ -78,8 +78,6 @@ def generateScatterPlot(playerStats, stat1, stat2, team, year, pa, playerName):
     names = []
     stat_1 = []
     stat_2 = []
-    x_label = ""
-    y_label = ""
 
     for name, stat_list in playerStats.items():
         names.append(name)
@@ -87,9 +85,10 @@ def generateScatterPlot(playerStats, stat1, stat2, team, year, pa, playerName):
         stat_2.append(float(stat_list[stat2]))
 
     fig, ax = plt.subplots()
+    fig.patch.set_facecolor(PANEL)
+    ax.set_facecolor(PANEL)
 
-    colors = ['red' if p == playerName else 'steelblue' for p in names]
-
+    colors = [ACCENT_HOT if p == playerName else ACCENT for p in names]
     ax.scatter(stat_1, stat_2, color=colors)
 
     STAT_INFO = {
@@ -102,26 +101,55 @@ def generateScatterPlot(playerStats, stat1, stat2, team, year, pa, playerName):
     x_info = STAT_INFO[stat1]
     y_info = STAT_INFO[stat2]
 
-    ax.axvline(x=x_info["avg"], color='red', linestyle='--', linewidth=1.5,
-               label=f'{x_info["label"]} League Average')
-    ax.axhline(y=y_info["avg"], color='blue', linestyle='--', linewidth=1.5,
-               label=f'{y_info["label"]} League Average')
+    # lock in the plot's actual data range first - Claude
+    x_min, x_max = min(stat_1), max(stat_1)
+    y_min, y_max = min(stat_2), max(stat_2)
+    x_pad = (x_max - x_min) * 0.08
+    y_pad = (y_max - y_min) * 0.08
+    ax.set_xlim(x_min - x_pad, x_max + x_pad)
+    ax.set_ylim(y_min - y_pad, y_max + y_pad)
 
-    x_label = x_info["label"]
-    y_label = y_info["label"]
+    # draw average lines as real data-coordinate lines, spanning the fixed range - Claude
+    ax.plot([x_info["avg"], x_info["avg"]], [y_min - y_pad, y_max + y_pad],
+             color=ACCENT_HOT, linestyle='--', linewidth=1.5,
+             label=f'{x_info["label"]} League Average')
+    ax.plot([x_min - x_pad, x_max + x_pad], [y_info["avg"], y_info["avg"]],
+             color=TEXT, linestyle='--', linewidth=1.5,
+             label=f'{y_info["label"]} League Average')
+
+    # small offset in DATA units instead of pixel "offset points" - Claude
+    x_offset = (x_max - x_min) * 0.015
+    y_offset = (y_max - y_min) * 0.015
 
     for i, name in enumerate(names):
         if team == "MLB":
             if name == playerName:
-                ax.annotate(name, (stat_1[i], stat_2[i]), textcoords="offset points", xytext=(5, 5))
+                ax.text(stat_1[i] + x_offset, stat_2[i] + y_offset, name, color=TEXT, fontsize=9)
         else:
-            ax.annotate(name, (stat_1[i], stat_2[i]), textcoords="offset points", xytext=(5, 5))
+            ax.text(stat_1[i] + x_offset, stat_2[i] + y_offset, name, color=TEXT, fontsize=9)
 
-    ax.legend()
+    legend = ax.legend()
+    legend.get_frame().set_facecolor(PANEL)
+    legend.get_frame().set_edgecolor(TEXT)
+    for text in legend.get_texts():
+        text.set_color(TEXT)
 
-    ax.set_xlabel(x_label)
-    ax.set_ylabel(y_label)
-    ax.set_title(f"{team} in {year} (Min. of {pa} PA)")
+    ax.tick_params(axis='x', colors=TEXT)
+    ax.tick_params(axis='y', colors=TEXT)
+
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_color(TEXT)
+    ax.spines['bottom'].set_color(TEXT)
+
+    ax.grid(True, color=GRIDLINE, alpha=0.15)
+    ax.set_axisbelow(True)
+
+    ax.set_xlabel(x_info["label"], color=TEXT)
+    ax.set_ylabel(y_info["label"], color=TEXT)
+    ax.set_title(f"{team} in {year} (Min. of {pa} PA)", color=TEXT)
 
     plt.tight_layout()
-    plt.show()
+    graph = mpld3.fig_to_html(fig)
+    plt.close()
+    return graph

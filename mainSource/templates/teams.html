@@ -28,8 +28,8 @@
 
             <label>Chart Type</label>
             <div class="toggleRow">
-            <button type="button" class="toggleBtn active" data-chart="bar">Bar</button>
-            <button type="button" class="toggleBtn" data-chart="scatter">Scatter</button>
+            <button type="button" class="toggleBtn active" id="bar">Bar</button>
+            <button type="button" class="toggleBtn" id="scatter">Scatter</button>
             </div>
 
             <select name = "statChoice" required>
@@ -54,7 +54,7 @@
                     <table class="table" id = "playerTable">
                       <thead class = "table-dark">
                         <tr>
-                          <th scope="col"></th>
+                          <th scope="col">#</th>
                           <th scope="col">{{ team }} Players</th>
                           <th scope="col">{{ stat }}</th>
                         </tr>
