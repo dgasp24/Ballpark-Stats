@@ -16,8 +16,14 @@
     box-sizing: border-box;
 }
 
-body{
+html, body {
     margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+body{
     background: var(--bg);
     font-family: var(--font-body);
     color: var(--text);

@@ -1,8 +1,9 @@
 from logging import exception
 
+import io
+import base64
 import numpy as np
 import matplotlib.pyplot as plt
-import mpld3
 
 
 PANEL = "#13291f"
@@ -10,6 +11,19 @@ ACCENT = "#f2b134"
 ACCENT_HOT = "#e2574c"
 TEXT = "#f5efe1"
 GRIDLINE = "#f2b134"
+
+
+def _fig_to_img_tag(fig):
+    """Render a matplotlib figure to a static PNG embedded directly in HTML,
+    skipping mpld3's much slower interactive SVG/JSON serialization."""
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png', facecolor=fig.get_facecolor(),
+                bbox_inches='tight', pad_inches=0.2, dpi=120)
+    plt.close(fig)
+    buf.seek(0)
+    encoded = base64.b64encode(buf.read()).decode('utf-8')
+    return f'<img src="data:image/png;base64,{encoded}" style="max-width:100%;height:auto;">'
+
 
 def generateBarGraph(playerStats, isINT, season, team, whichStat, playerName, pa):
     player = list(playerStats.keys())
@@ -52,8 +66,8 @@ def generateBarGraph(playerStats, isINT, season, team, whichStat, playerName, pa
             ax.set_xticks(range(len(player)))
             ax.set_xticklabels(player, fontsize=8, color=TEXT)
         else:
-            ax.set_xticks(player)
-            ax.set_xticklabels(player, fontsize=8, color=TEXT)
+            ax.set_xticks([])
+            ax.set_xticklabels([])
 
         ax.tick_params(axis='x', colors=TEXT)
         ax.tick_params(axis='y', colors=TEXT)
@@ -67,12 +81,11 @@ def generateBarGraph(playerStats, isINT, season, team, whichStat, playerName, pa
         ax.set_axisbelow(True)
 
         plt.tight_layout()
-        graph = mpld3.fig_to_html(fig)
-        plt.close()
-        return graph
+        return _fig_to_img_tag(fig)
 
     except Exception as e:
         print("Error, failed to generate chart", e)
+
 
 def generateScatterPlot(playerStats, stat1, stat2, team, year, pa, playerName):
     names = []
@@ -150,6 +163,4 @@ def generateScatterPlot(playerStats, stat1, stat2, team, year, pa, playerName):
     ax.set_title(f"{team} in {year} (Min. of {pa} PA)", color=TEXT)
 
     plt.tight_layout()
-    graph = mpld3.fig_to_html(fig)
-    plt.close()
-    return graph
+    return _fig_to_img_tag(fig)

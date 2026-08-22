@@ -51,11 +51,6 @@ def grabbingStatsforBar(statChoice, teamId, year, minimumPA):
             gamesPlayed = split['stat']['gamesPlayed']
             pa = int(split['stat']['plateAppearances'])
 
-            print(f"{fullName}\n"
-                  f"Batting Average: {avg}, Home Runs: {homeRuns}, "
-                  f"OPS: {ops} SLG:{slg} Games Played: {gamesPlayed}, "
-                  f"PA: {pa}")
-
             Stat, isInt = whichStatBar(
                 statChoice,
                 fullName,
@@ -80,10 +75,6 @@ def grabbingStatsforBar(statChoice, teamId, year, minimumPA):
             gamesPlayed = split['stat']['gamesPlayed']
             pa = int(split['stat']['plateAppearances'])
 
-            print(f"{fullName}\n"
-                  f"Batting Average: {avg}, Home Runs: {homeRuns}, "
-                  f"OPS: {ops} SLG:{slg} Games Played: {gamesPlayed}, "
-                  f"PA: {pa}")
 
             Stat, isInt = whichStatBar(
                 statChoice,
@@ -98,6 +89,7 @@ def grabbingStatsforBar(statChoice, teamId, year, minimumPA):
     return Stat, isInt, playerStats
 
 def grabbingStatsforScatter(teamId, year, minimumPA):
+    playerStats.clear()
     Stat = None
     isInt = None
 
@@ -111,10 +103,6 @@ def grabbingStatsforScatter(teamId, year, minimumPA):
             if split['stat']['plateAppearances'] < minimumPA:
                 continue
 
-            print(f"{split['player']['fullName']}\n"
-                  f"Batting Average: {split['stat']['avg']}, Home Runs: {split['stat']['homeRuns']}, "
-                  f"OPS: {split['stat']['ops']} SLG:{split['stat']['slg']} Games Played: {split['stat']['gamesPlayed']}, "
-                  f"PA: {split['stat']['plateAppearances']}")
 
             lastName = split['player']['lastName']
             fullName = split['player']['fullName']
@@ -126,7 +114,7 @@ def grabbingStatsforScatter(teamId, year, minimumPA):
             plateAppearances = split['stat']['plateAppearances']
 
 
-            playerStats[lastName] = avg, ops, hr, slg
+            playerStats[fullName] = avg, ops, hr, slg
     else:
         mlbData = allMLBPlayerData(year)
 
@@ -136,10 +124,6 @@ def grabbingStatsforScatter(teamId, year, minimumPA):
             if split['stat']['plateAppearances'] < minimumPA:
                 continue
 
-            print(f"{split['player']['fullName']}\n"
-                  f"Batting Average: {split['stat']['avg']}, Home Runs: {split['stat']['homeRuns']}, "
-                  f"OPS: {split['stat']['ops']} SLG:{split['stat']['slg']} Games Played: {split['stat']['gamesPlayed']}, "
-                  f"PA: {split['stat']['plateAppearances']}")
 
             lastName = split['player']['lastName']
             fullName = split['player']['fullName']

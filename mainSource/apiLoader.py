@@ -1,4 +1,5 @@
 import requests
+session = requests.Session()
 mlbAPI = "https://statsapi.mlb.com"
 
 def newMlbRosterData(team, season):
@@ -13,7 +14,7 @@ def newMlbRosterData(team, season):
         "playerPool": "ALL"
     }
 
-    response = requests.get(newMLBAPI, params=param)
+    response = session.get(newMLBAPI, params=param)
 
     if response.status_code == 200:
         return response.json()
@@ -31,7 +32,7 @@ def allMLBPlayerData(season):
         "limit": 1000,
         "playerPool": "ALL"
     }
-    response = requests.get(allMLBAPI, params=param)
+    response = session.get(allMLBAPI, params=param)
 
     if response.status_code == 200:
         return response.json()
@@ -41,7 +42,7 @@ def allMLBPlayerData(season):
 
 
 def getTeamID():
-    response = requests.get(f"{mlbAPI}/api/v1/teams/")
+    response = session.get(f"{mlbAPI}/api/v1/teams/")
     if response.status_code == 200:
         return response.json()
     else:

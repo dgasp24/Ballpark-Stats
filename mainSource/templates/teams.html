@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-     <div id = "divHeading">
+     <div id = "divHeading" class = "animate__animated  animate__slideInUp">
         <header id = "heading" class = "bg-gradient">
             <h1 id = "title" >Ballpark Stats</h1>
                     <a href="{{ url_for('mlb') }}">
@@ -15,8 +15,8 @@
         </div>
 
 
-    <div id="contentRow">
-        <form id ="selection" >
+    <div id="contentRow" class = "animate__animated  animate__slideInUp">
+        <form id ="selection" method = "POST">
             <label for="year">Year</label>
             <input type = "text" name ="year" id="year" required><br>
 
@@ -28,54 +28,73 @@
 
             <label>Chart Type</label>
             <div class="toggleRow">
-            <button type="button" class="toggleBtn active" id="bar">Bar</button>
+            <button type="button" class="toggleBtn"  id="bar">Bar</button>
             <button type="button" class="toggleBtn" id="scatter">Scatter</button>
             </div>
 
-            <select name = "statChoice" required>
-                <option value = None>Stat</option>
-                <option value = 1>Batting Average</option>
-                <option value = 2>OPS</option>
-                <option value = 3>Homeruns</option>
-                <option value = 4>SLG</option>
-            </select>
+            <div id = "statsDiv">
+            </div>
 
-            <button type = "submit" id="submit" class ="btn bg-gradient selectionButton">Submit</button>
-
-            <div class="checkboxRow">
+             <div class="checkboxRow">
                 <input type="checkbox" id = "graph"><label>Graph</label>
                 <input type="checkbox" id = "table"><label>Table</label>
             </div>
+
+            <button type = "submit" id="submit" class ="btn bg-gradient selectionButton">Submit</button>
         </form>
 
+        {% if playerStats %}
         <div id="resultsContainer">
-            {% if playerStats %}
-            <div id="divTable" class = "hidden">
-                    <table class="table" id = "playerTable">
-                      <thead class = "table-dark">
+            <div id="divTable" class="hidden animate__animated animate__fadeInUp">
+                <table class="table" id="playerTable">
+                    <thead class="table-dark">
+                    {% if not statChoice2 %}
                         <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">{{ team }} Players</th>
-                          <th scope="col">{{ stat }}</th>
+                            <th scope="col">#</th>
+                            <th scope="col">{{ team }} Players</th>
+                            <th scope="col">{{ stat }}</th>
                         </tr>
-                      </thead>
-                      <tbody>
-                         {% for player, stats in playerStats.items() %}
+                    </thead>
+                    <tbody>
+                        {% for player, stats in playerStats.items() %}
                         <tr>
-                          <td><span class="rank">{{ loop.index }}</span></td>
-                          <th scope="row">{{ player }}</th>
-                          <td>{{ stats }}</td>
+                            <td><span class="rank">{{ loop.index }}</span></td>
+                            <th scope="row">{{ player }}</th>
+                            <td>{{ stats }}</td>
                         </tr>
-                      {% endfor %}
-                      </tbody>
-                    </table>
+                        {% endfor %}
+                    </tbody>
+                    {% else %}
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">{{ team }} Players</th>
+                            <th scope="col">BA</th>
+                            <th scope="col">OPS</th>
+                            <th scope="col">HR</th>
+                            <th scope="col">SLG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player, stats in playerStats.items() %}
+                        <tr>
+                            <td><span class="rank">{{ loop.index }}</span></td>
+                            <th scope="row">{{ player }}</th>
+                            <td>{{ stats[0] }}</td>
+                            <td>{{ stats[1] }}</td>
+                            <td>{{ stats[2] }}</td>
+                            <td>{{ stats[3] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    {% endif %}
+                </table>
             </div>
-                {% else %}
-                    <p></p>
             {% endif %}
-            <div id = "graph-container"  class ="hidden">
+            {% if graph %}
+            <div id = "graph-container"  class ="hidden animate__animated animate__fadeInUp">
                 {{ graph|safe }}
             </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
