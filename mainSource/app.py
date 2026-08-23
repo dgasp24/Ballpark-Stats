@@ -64,6 +64,7 @@ def mlb():
         year = int(year)
         pa = int(pa) if pa else 0
         stat = int(stat) if stat else None
+        player = player.title()
 
         if not stat2:
             start = time.time()
