@@ -35,14 +35,6 @@ optionsData.forEach(data => {
     stat2.appendChild(option2);
 })
 
-checkGraph.addEventListener("click", () =>{
-    graph.classList.toggle(("hidden"));
-})
-
-checkTable.addEventListener("click", () =>{
-    table.classList.toggle("hidden");
-})
-
 barBtn.addEventListener("click", () => {
     barBtn.classList.add("active");
     scatterBtn.classList.remove("active");

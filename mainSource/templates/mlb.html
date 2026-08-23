@@ -34,18 +34,13 @@
             <div id = "statsDiv">
             </div>
 
-            <div class="checkboxRow">
-                <input type="checkbox" id = "graph"><label>Graph</label>
-                <input type="checkbox" id = "table"><label>Table</label>
-            </div>
-
             <button type = "submit" id="submit" class ="btn bg-gradient selectionButton">Submit</button>
 
         </form>
 
         {% if playerStats %}
         <div id="resultsContainer">
-            <div id="divTable" class="hidden animate__animated animate__fadeInUp">
+            <div id="divTable" class="animate__animated animate__fadeInUp">
                 <table class="table" id="playerTable">
                     <thead class="table-dark">
                     {% if not statChoice2 %}
@@ -91,7 +86,7 @@
             </div>
             {% endif %}
             {% if graph %}
-            <div id = "graph-container"  class ="hidden animate__animated animate__fadeInUp">
+            <div id = "graph-container"  class ="animate__animated animate__fadeInUp">
                 {{ graph|safe }}
             </div>
             {% endif %}
