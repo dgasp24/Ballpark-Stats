@@ -40,7 +40,6 @@ def teams():
         graph = generateBarGraph(sortedStats, isInt, year, team.capitalize(), stat, "", pa)
         return render_template('teams.html', playerStats=sortedStats, stat=stat, team=team.capitalize(), year=year,graph=graph)
     else:
-        print("Scatter")
         stat2 = int(stat2) if stat2 else None
         playerStats = grabbingStatsforScatter(teamId, year, pa)
         graph = generateScatterPlot(playerStats, stat - 1, stat2 - 1, team.capitalize(), year, pa, "")

@@ -10,6 +10,13 @@
     margin-bottom: 20px;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
 #buttonContainer{
     gap: 50px;
     display: flex;

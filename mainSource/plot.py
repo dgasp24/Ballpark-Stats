@@ -1,5 +1,3 @@
-from logging import exception
-
 import io
 import base64
 import numpy as np
@@ -14,8 +12,6 @@ GRIDLINE = "#f2b134"
 
 
 def _fig_to_img_tag(fig):
-    """Render a matplotlib figure to a static PNG embedded directly in HTML,
-    skipping mpld3's much slower interactive SVG/JSON serialization."""
     buf = io.BytesIO()
     fig.savefig(buf, format='png', facecolor=fig.get_facecolor(),
                 bbox_inches='tight', pad_inches=0.2, dpi=120)
@@ -64,7 +60,7 @@ def generateBarGraph(playerStats, isINT, season, team, whichStat, playerName, pa
 
         if team != "MLB":
             ax.set_xticks(range(len(player)))
-            ax.set_xticklabels(player, fontsize=8, color=TEXT)
+            ax.set_xticklabels(player, fontsize=4, color=TEXT)
         else:
             ax.set_xticks([])
             ax.set_xticklabels([])
