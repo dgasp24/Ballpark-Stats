@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block header %}
+    <link href="{{ url_for('static', filename='styleError.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class = "headingDiv d-flex justify-content-center align-items-center vh-100 animate__animated  animate__slideInUp">
+        <header id = "heading" class = "bg-gradient">
+            <h1 id = "title" >There was an error, please try again!</h1>
+        </header>
+        <div id = "buttonContainer" class = "d-grid gap-2 col-6 mx-auto">
+                <a href="{{ url_for('teams') }}">
+                    <button type = "submit" id="teamsBtn" class = "btn bg-gradient selectionButton">Teams</button>
+                </a>
+                <a href="{{ url_for('mlb') }}">
+                    <button type = "submit" id="MLBBtn" class = "btn bg-gradient selectionButton">MLB</button>
+                </a>
+     </div>
+    </div>
+{% endblock %}

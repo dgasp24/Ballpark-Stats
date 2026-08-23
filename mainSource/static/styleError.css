@@ -1,0 +1,38 @@
+#heading{
+    width: fit-content;
+    height: fit-content;
+    display: flow;
+    padding-bottom: 0px;
+}
+
+#title{
+    font-size:50px;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+#buttonContainer{
+    margin: 15px;
+    gap: 50px;
+    padding: 5px;
+    width: fit-content;
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+.selectionButton{
+    width: 200px;
+    font-size: 20px;
+}
+
+.headingDiv{
+    flex-direction: column;
+}
+
