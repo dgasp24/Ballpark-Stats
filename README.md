@@ -2,7 +2,7 @@
 
 A full-stack web app for exploring MLB player statistics — pulls live data from the MLB Stats API and lets you visualize it as bar charts or scatter plots, either for a single team or league-wide.
 
-**Live site:** [https://mlb-stats-project-production.up.railway.app/]
+**Live site:** [MLB Stats](https://mlb-stats-project.onrender.com/mlb)
 
 <img width="691" height="421" alt="image" src="https://github.com/user-attachments/assets/185b35b6-0f4e-4c20-815a-9142d638fe1a" />
 
